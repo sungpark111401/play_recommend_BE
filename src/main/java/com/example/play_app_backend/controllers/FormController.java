@@ -8,6 +8,10 @@ import com.example.play_app_backend.FormData;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import com.example.play_app_backend.SpotifyApiClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.models.SpotifyResponse;
+import com.example.models.TrackItem;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -47,6 +51,11 @@ public class FormController {
             try (Response resp = httpClient.newCall(req).execute()) {
                 if (resp.isSuccessful()) {
                     String responseBody = resp.body().string();
+                    ObjectMapper mapper = new ObjectMapper();
+                    // convert response to follow the spotifyresponse class!
+                    SpotifyResponse spotifyResp = mapper.readValue(responseBody, SpotifyResponse.class);
+                    List<TrackItem> trackItems = spotifyResp.getTracks().getItems();
+                    List<String> trackNames = trackItems.stream().map(TrackItem::getName()).collect(Collectors::toList());
                     return responseBody;
                 } else {
                     return "failed to fetch tracks from spotify /search api endpoint!";
