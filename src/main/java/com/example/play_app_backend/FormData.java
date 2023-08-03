@@ -42,4 +42,33 @@ public class FormData {
                 ", extra='" + extra + '\'' +
                 '}';
     }
+
+    // getters
+    public String getMood() {
+        return mood;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getEnergy() {
+        return energy;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getDecade() {
+        return decade;
+    }
+
+    public String getInstrument() {
+        return instrument;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
 }

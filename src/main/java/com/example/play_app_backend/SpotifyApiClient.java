@@ -50,3 +50,18 @@ public class SpotifyApiClient {
         }
     }
 }
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                String responseBody = response.body().string();
+                // Parse the JSON response and extract the access token
+                // Example: using Jackson ObjectMapper
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode jsonNode = mapper.readTree(responseBody);
+                String accessToken = jsonNode.get("access_token").asText();
+                return accessToken;
+            } else {
+                throw new RuntimeException("Failed to get access token: " + response.code());
+            }
+        }
+    }}
