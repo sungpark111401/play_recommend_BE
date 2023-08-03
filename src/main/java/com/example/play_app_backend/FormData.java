@@ -1,5 +1,7 @@
 package com.example.play_app_backend;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class FormData {
     @JsonProperty("mood")
     private String mood;
@@ -15,6 +17,7 @@ public class FormData {
     private String instrument;
     @JsonProperty("extra")
     private String extra;
+
     @Override
     public String toString() {
         return "FormData{" +
@@ -26,5 +29,34 @@ public class FormData {
                 ", instrument='" + instrument + '\'' +
                 ", extra='" + extra + '\'' +
                 '}';
+    }
+
+    // getters
+    public String getMood() {
+        return mood;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getEnergy() {
+        return energy;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getDecade() {
+        return decade;
+    }
+
+    public String getInstrument() {
+        return instrument;
+    }
+
+    public String getExtra() {
+        return extra;
     }
 }
