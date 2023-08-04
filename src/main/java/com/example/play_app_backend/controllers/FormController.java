@@ -8,6 +8,11 @@ import com.example.play_app_backend.FormData;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import com.example.play_app_backend.SpotifyApiClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.play_app_backend.models.SpotifyResponse;
+import com.example.play_app_backend.models.TrackItem;
+import java.util.List;
+import com.example.play_app_backend.models.Artist;
 
 @RestController
 @RequestMapping("/api")
@@ -20,10 +25,9 @@ public class FormController {
 
     // helper to construct the query parameter q's query string!
     public String constructQueryString(FormData d) {
-        String query = String.format("artist:%s genre:%s year:%s",
+        String query = String.format("artist:%s genre:%s",
                 d.getArtist(),
-                d.getGenre(),
-                d.getYear());
+                d.getGenre());
         System.out.printf("Query String: %s", query);
         return query;
     }
@@ -49,6 +53,19 @@ public class FormController {
             try (Response resp = httpClient.newCall(req).execute()) {
                 if (resp.isSuccessful()) {
                     String responseBody = resp.body().string();
+                    ObjectMapper mapper = new ObjectMapper();
+                    SpotifyResponse spotifyResp = mapper.readValue(responseBody, SpotifyResponse.class);
+                    List<TrackItem> trackItems = spotifyResp.getTracks().getItems();
+                    for (TrackItem ti : trackItems) {
+                        String curName = ti.getName();
+                        List<Artist> curArtists = ti.getArtists();
+                        System.out.println("Name of current track: " + curName);
+                        System.out.println("Current track has artists: \n");
+                        for (Artist a : curArtists) {
+                            System.out.println("artist name: " + a.getName() + "\n");
+                        }
+                        System.out.println("End of artist names for current track\n");
+                    }
                     return responseBody;
                 } else {
                     System.out.println(resp.toString());
