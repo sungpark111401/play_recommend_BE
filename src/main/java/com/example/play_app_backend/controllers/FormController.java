@@ -20,10 +20,10 @@ public class FormController {
 
     // helper to construct the query parameter q's query string!
     public String constructQueryString(FormData d) {
-        String query = String.format("artist:%s genre:%s decade:%s",
+        String query = String.format("artist:%s genre:%s year:%s",
                 d.getArtist(),
                 d.getGenre(),
-                d.getDecade());
+                d.getYear());
         System.out.printf("Query String: %s", query);
         return query;
     }
@@ -32,6 +32,7 @@ public class FormController {
     public String handleFormSubmission(@RequestBody FormData data) {
         try {
             String accessToken = spotifyClient.getAccessToken();
+            System.out.println("AccessToken: " + accessToken);
             // now, with accessToken, we should utilize the data gotten from front-end to
             // look for Spotify tracks
             // that best match user criteria!
@@ -40,7 +41,8 @@ public class FormController {
             String apiUrl = "https://api.spotify.com/v1/search";
             String queryString = constructQueryString(data);
             // full url containing necessary query params!
-            String fullUrl = apiUrl + '?' + "q=" + queryString + " &type=track";
+            String fullUrl = apiUrl + '?' + "q=" + queryString + "&type=track";
+            System.out.println("fullUrl: " + fullUrl);
             OkHttpClient httpClient = new OkHttpClient();
             Request req = new Request.Builder().url(fullUrl).addHeader("Authorization", "Bearer " + accessToken).get()
                     .build();
@@ -49,6 +51,7 @@ public class FormController {
                     String responseBody = resp.body().string();
                     return responseBody;
                 } else {
+                    System.out.println(resp.toString());
                     return "failed to fetch tracks from spotify /search api endpoint!";
                 }
             } catch (Exception e) {

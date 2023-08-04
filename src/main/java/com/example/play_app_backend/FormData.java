@@ -11,8 +11,8 @@ public class FormData {
     private String energy;
     @JsonProperty("artist")
     private String artist;
-    @JsonProperty("decade")
-    private String decade;
+    @JsonProperty("year")
+    private String year;
     @JsonProperty("instrument")
     private String instrument;
     @JsonProperty("extra")
@@ -25,7 +25,7 @@ public class FormData {
                 ", genre='" + genre + '\'' +
                 ", energy='" + energy + '\'' +
                 ", artist='" + artist + '\'' +
-                ", decade='" + decade + '\'' +
+                ", year='" + year + '\'' +
                 ", instrument='" + instrument + '\'' +
                 ", extra='" + extra + '\'' +
                 '}';
@@ -48,8 +48,8 @@ public class FormData {
         return artist;
     }
 
-    public String getDecade() {
-        return decade;
+    public String getYear() {
+        return year;
     }
 
     public String getInstrument() {
